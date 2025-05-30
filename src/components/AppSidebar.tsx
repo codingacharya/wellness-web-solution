@@ -37,19 +37,19 @@ const menuItems = [
 ]
 
 export function AppSidebar() {
-  const { collapsed } = useSidebar()
+  const { state } = useSidebar()
   const location = useLocation()
   const currentPath = location.pathname
+  const collapsed = state === "collapsed"
 
   const isActive = (path: string) => currentPath === path
-  const isExpanded = menuItems.some((item) => isActive(item.url))
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive ? "bg-blue-100 text-blue-700 font-medium border-r-2 border-blue-500" : "hover:bg-blue-50 text-gray-700"
 
   return (
     <Sidebar
       className={`${collapsed ? "w-16" : "w-64"} bg-white border-r border-gray-200 transition-all duration-300`}
-      collapsible
+      collapsible="icon"
     >
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center space-x-3">
@@ -68,7 +68,7 @@ export function AppSidebar() {
       <SidebarTrigger className="absolute -right-3 top-6 bg-white border border-gray-200 rounded-full p-1 shadow-md" />
 
       <SidebarContent className="p-4">
-        <SidebarGroup open={isExpanded}>
+        <SidebarGroup>
           <SidebarGroupLabel className="text-gray-600 font-medium mb-2">
             {!collapsed && "Navigation"}
           </SidebarGroupLabel>
